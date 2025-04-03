@@ -1,36 +1,49 @@
 import argparse
 import img_fit
+from img_fit import __version__ as v
 
-class SharedAction(argparse.Action):
+class TextAction(argparse.Action):
     def __call__(self, parser, namespace, values, option_string=None):
-        # 调用共享方法
         self.handle_output(parser, namespace, values)
 
     @staticmethod
     def handle_output(parser, namespace, values):
-        # 共享的处理逻辑
         setattr(namespace, "output", values) 
 
+class VersionAction(argparse.Action):
+    def __call__(self, parser, namespace, values, option_string=None):
+        self.handle_output(parser, namespace, values)
+
+    @staticmethod
+    def handle_output(parser, namespace, values):
+        setattr(namespace, "v", values) 
+
 parser = argparse.ArgumentParser(description="imgfit commands")
-subparsers = parser.add_subparsers(dest="command", required=True)
+subparsers = parser.add_subparsers(dest="command", required=False)
 
 p_text = subparsers.add_parser("text", help="Get the image text")
-p_text.add_argument("from_img", nargs=None, help="The image you want to change") 
+p_text.add_argument("from_img", help="The image you want to change") 
 p_text.add_argument("chars", nargs="+", help="The chars ypu want to make a text painting.") 
-p_text.add_argument("-o","--output",nargs="?", action=SharedAction, type=str,help="the output path.")  
+p_text.add_argument("-o","--output",nargs="?", type=str,help="The output path.")  
+
 p_fitter = subparsers.add_parser("fitter", help="Fitter the image.")
-p_fitter.add_argument("from_img",nargs=None,help="The image you want to change")
-p_fitter.add_argument("fitter_img",nargs=None,help="The fitter image.")
-p_fitter.add_argument("output_img",nargs=None,help="The output image path.")
+p_fitter.add_argument("from_img",help="The image you want to change")
+p_fitter.add_argument("fitter_img",help="The fitter image.")
+p_fitter.add_argument("output_img",help="The output image path.")
+
+parser.add_argument("-v","--version",nargs="?",action=TextAction,type=str,help="get the imgfit version.")
 
 args = parser.parse_args()
 try:
     if args.command == "text":
-        print(args)
         img_fit.text_painting(args.from_img,args.chars,args.output)
     elif args.command == "fitter":
         img_fit.add_fitter(args.from_img,args.fitter_img,args.output_img)
+    elif args.v is None:
+        pass
 except FileNotFoundError as fe:
     print("Error:",fe)
+except AttributeError:
+    print("Version : imgfit",v)
 else:
     print("fit image successfull!")

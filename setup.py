@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 import sys
+from img_fit import __version__
 
 data_files = []
 if sys.platform == "win32":
@@ -7,7 +8,7 @@ if sys.platform == "win32":
 
 setup(
     name = "imgfit",
-    version = "0.2.0.post1",
+    version = __version__,
     packages = find_packages(),
     install_requires = ["pillow"],
     python_requires = ">=3",

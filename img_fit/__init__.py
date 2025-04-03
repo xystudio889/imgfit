@@ -1,3 +1,5 @@
+__version__ = "0.2.0.post2"
+
 def add_fitter(img, fit_img, output_img):
     from PIL import Image
     import math
