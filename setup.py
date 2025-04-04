@@ -4,7 +4,7 @@ from img_fit import __version__
 
 data_files = []
 if sys.platform == "win32":
-    data_files = [('scripts',["scripts\img.exe"])]
+    data_files = [('scripts',["scripts/img.exe"])]
 
 setup(
     name = "imgfit",
