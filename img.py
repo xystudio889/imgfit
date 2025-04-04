@@ -23,7 +23,7 @@ subparsers = parser.add_subparsers(dest="command", required=False)
 p_text = subparsers.add_parser("text", help="Get the image text")
 p_text.add_argument("from_img", help="The image you want to change") 
 p_text.add_argument("chars", nargs="+", help="The chars ypu want to make a text painting.") 
-p_text.add_argument("-o","--output",nargs="?", type=str,help="The output path.")  
+p_text.add_argument("-o","--output",nargs="?",action=TextAction,type=str,help="The output path.")  
 
 p_fitter = subparsers.add_parser("fitter", help="Fitter the image.")
 p_fitter.add_argument("from_img",help="The image you want to change")
