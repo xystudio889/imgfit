@@ -10,7 +10,7 @@ setup(
     name = "imgfit",
     version = __version__,
     packages = find_packages(),
-    install_requires = ["pillow"],
+    install_requires = ["pillow >= 8", "matplotlib >= 3.4", "PyLaTeXenc >= 2"],
     python_requires = ">=3",
     author = "xystudio",
     author_email = "173288240@qq.com",

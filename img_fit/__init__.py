@@ -1,8 +1,11 @@
-__version__ = "0.2.0.post2"
+from PIL import Image
+import matplotlib
 
-def add_fitter(img, fit_img, output_img):
-    from PIL import Image
+__version__ = "0.3.0"
+
+def add_fitter(img, fit_img, output_img) -> Image.Image:
     import math
+
     flag = Image.open(fit_img)
     file = img
     if file:
@@ -21,10 +24,9 @@ def add_fitter(img, fit_img, output_img):
         flag_new = flag2.resize(head.size)
         head.paste(flag_new, (0, 0), flag_new)
         head.save(output_img)
+    return head
 
-def text_painting(img, char:list, output:str=None):
-    from PIL import Image
-
+def text_painting(img, char:list, output:str=None) -> str:
     img = Image.open(img)
     img = img.resize((60,60))
     img = img.convert('L')
@@ -39,3 +41,34 @@ def text_painting(img, char:list, output:str=None):
         result.close()
     else:
         print(txt)
+    return txt
+
+def latex2text(text, output=None):
+    if output is None:
+        from pylatexenc.latex2text import LatexNodes2Text
+        converter = LatexNodes2Text()
+        latex_str = text
+        readable_str = converter.latex_to_text(latex_str)
+        print(readable_str)  # 输出：E = mc²
+    else:
+        from matplotlib import mathtext
+        mathtext.math_to_image(text, output, dpi=300) 
+
+def create_image(red:int, green:int, blue:int, width:int, height:int, alpha:int = 100, output_image=None) -> Image.Image:
+    """
+    Create a new image.
+    
+    :params float red: Image depth of red.
+    :params float green: Image depth of green.
+    :params float blue: Image depth of blue.
+    :params float alpha=1: Image depth of alpha.
+    :params int width: Image width.
+    :params int height: Image height.
+    
+    :return Image: The created image
+    """
+
+    image = Image.new('RGBA', (width, height), (red, green, blue, alpha))
+    if output_image is not None:
+        image.save(output_image)
+    return image
