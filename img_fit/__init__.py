@@ -1,7 +1,7 @@
 from PIL import Image
 import matplotlib
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 def add_fitter(img, fit_img, output_img) -> Image.Image:
     import math
